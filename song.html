@@ -6,7 +6,7 @@
     <title>Welcome to Happy99.9</title>
 </head>
 <body>
-    <h1>Now Playing: Eiffel 65 - Blue (Da Ba Dee)!</h1>
+    <h1>Now Playing: Eiffel 65 - Blue (Da Ba Dee)</h1>
 
     <!-- Audio player (no controls) -->
     <audio id="audioPlayer" autoplay>
@@ -21,31 +21,40 @@
         const introUrl = "https://raw.githubusercontent.com/RoqueDJ/happy99.9/main/audio/Happy%2099%20(mp3cut.net).mp3"; // Intro song
         const mainSongUrl = "https://raw.githubusercontent.com/RoqueDJ/happy99.9/main/audio/Eiffel%2065%20-%20Blue%20(Da%20Ba%20Dee)%20(AC3%20Stereo).mp3"; // Main song
 
-        // Function to alternate between intro and main song
-        function playNextSong(currentSrc) {
-            if (currentSrc === introUrl) {
-                audioPlayer.src = mainSongUrl; // Switch to main song
-            } else {
-                audioPlayer.src = introUrl; // Switch back to intro
-            }
-            audioPlayer.play(); // Start playing the new song
-        }
+        // Set the initial song based on saved state
+        let currentSong = localStorage.getItem('currentSong') || 'intro';
+        let currentTime = parseFloat(localStorage.getItem('currentTime')) || 0;
 
-        // Check if there's a saved state for the song
-        if (localStorage.getItem('currentSong') === 'mainSong') {
+        // Start playing from the last saved position
+        if (currentSong === 'main') {
             audioPlayer.src = mainSongUrl;
         } else {
             audioPlayer.src = introUrl;
         }
 
-        // Add event listener to switch songs when the current one ends
+        audioPlayer.currentTime = currentTime; // Set the time to where it was last left off
+
+        // Function to alternate between intro and main song
+        function playNextSong() {
+            if (audioPlayer.src.includes(introUrl)) {
+                audioPlayer.src = mainSongUrl; // Switch to main song
+                localStorage.setItem('currentSong', 'main'); // Save the current song
+            } else {
+                audioPlayer.src = introUrl; // Switch back to intro
+                localStorage.setItem('currentSong', 'intro'); // Save the current song
+            }
+            audioPlayer.play(); // Start playing the new song
+        }
+
+        // Event listener to switch songs when the current one ends
         audioPlayer.addEventListener('ended', function() {
-            playNextSong(audioPlayer.src);
-            localStorage.setItem('currentSong', audioPlayer.src === introUrl ? 'introSong' : 'mainSong');
+            playNextSong();
         });
 
-        // Disable controls (no play, pause, or volume control)
-        audioPlayer.controls = false;
+        // Save the current time of the audio whenever it is updated
+        audioPlayer.addEventListener('timeupdate', function() {
+            localStorage.setItem('currentTime', audioPlayer.currentTime); // Save the current time
+        });
     </script>
 </body>
 </html>
