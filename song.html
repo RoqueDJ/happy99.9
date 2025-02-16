@@ -8,15 +8,14 @@
 <body>
     <h1>Now Playing: Eiffel 65 - Blue (Da Ba Dee)!</h1>
 
-    <!-- Audio player -->
-    <audio id="audioPlayer" controls autoplay>
+    <!-- Audio player (no controls) -->
+    <audio id="audioPlayer" autoplay>
         <source id="songSource" src="https://raw.githubusercontent.com/RoqueDJ/happy99.9/main/audio/Happy%2099%20(mp3cut.net).mp3" type="audio/mp3">
         Your browser does not support the audio element.
     </audio>
 
     <script>
         const audioPlayer = document.getElementById('audioPlayer');
-        const songSource = document.getElementById('songSource');
 
         // URLs for the intro and main song
         const introUrl = "https://raw.githubusercontent.com/RoqueDJ/happy99.9/main/audio/Happy%2099%20(mp3cut.net).mp3"; // Intro song
@@ -32,13 +31,21 @@
             audioPlayer.play(); // Start playing the new song
         }
 
-        // Start with intro song
-        audioPlayer.src = introUrl;
+        // Check if there's a saved state for the song
+        if (localStorage.getItem('currentSong') === 'mainSong') {
+            audioPlayer.src = mainSongUrl;
+        } else {
+            audioPlayer.src = introUrl;
+        }
 
         // Add event listener to switch songs when the current one ends
         audioPlayer.addEventListener('ended', function() {
             playNextSong(audioPlayer.src);
+            localStorage.setItem('currentSong', audioPlayer.src === introUrl ? 'introSong' : 'mainSong');
         });
+
+        // Disable controls (no play, pause, or volume control)
+        audioPlayer.controls = false;
     </script>
 </body>
 </html>
