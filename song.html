@@ -3,13 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Radio Station</title>
+    <title>Welcome to Happy99.9</title>
 </head>
 <body>
-    <h1>Welcome to My Free Radio Station!</h1>
-    <audio controls autoplay loop>
-        <source https://drive.google.com/file/d/1sRDT5ZUUVovucmM_MFtXGzidhpOMRsfk/" type="audio/mp3">
+    <h1>Now Playing: Blue Da Ba Dee!</h1>
+
+    <!-- Audio player -->
+    <audio id="audioPlayer" controls autoplay loop>
+        <source id="songSource" src="https://drive.google.com/file/d/1sZ6aWoSuXTu93JNTihZGsnbd-EkFdgyj/view?usp=drivesdk" type="audio/mp3">
         Your browser does not support the audio element.
     </audio>
+
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const songSource = document.getElementById('songSource');
+
+        // Replace these URLs with the correct paths to your files
+        const introUrl = "https://drive.google.com/file/d/1sZ6aWoSuXTu93JNTihZGsnbd-EkFdgyj/view?usp=drivesdk"; // Intro song
+        const mainSongUrl = "https://drive.google.com/file/d/1sRDT5ZUUVovucmM_MFtXGzidhpOMRsfk/view?usp=drivesdk"; // Main song
+
+        // Play intro first and then switch to main song
+        audioPlayer.src = introUrl; // Start with the intro song
+
+        audioPlayer.addEventListener('ended', function() {
+            if (audioPlayer.src.includes(introUrl)) {
+                audioPlayer.src = mainSongUrl; // Change to main song after intro
+                audioPlayer.play(); // Start playing the main song
+            } else {
+                audioPlayer.src = mainSongUrl; // Keep the main song playing in a loop
+            }
+        });
+    </script>
 </body>
 </html>
