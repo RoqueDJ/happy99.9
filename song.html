@@ -6,7 +6,7 @@
     <title>Welcome to Happy99.9</title>
 </head>
 <body>
-    <h1>Now Playing: Eiffel 65 - Blue (Da Ba Dee)</h1>
+    <h1>Now Playing: Eiffel 65 - Blue (Da Ba Dee)!</h1>
 
     <!-- Audio player (no controls) -->
     <audio id="audioPlayer" autoplay>
@@ -32,6 +32,7 @@
             audioPlayer.src = introUrl;
         }
 
+        // Ensure the song starts at the correct position
         audioPlayer.currentTime = currentTime; // Set the time to where it was last left off
 
         // Function to alternate between intro and main song
