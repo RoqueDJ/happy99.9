@@ -6,12 +6,11 @@
     <title>Welcome to Happy99.9</title>
 </head>
 <body>
-    <h1>Now Playing: Blue Da Ba Dee!</h1>
+    <h1>Now Playing: Eiffel 65 - Blue (Da Ba Dee)!</h1>
 
     <!-- Audio player -->
-    <audio id="audioPlayer" controls autoplay loop>
-        <source id="songSource" src="https://drive.google.com/uc?export=download&id=1sZ6aWoSuXTu93JNTihZGsnbd-EkFdgyj"
-" type="audio/mp3">
+    <audio id="audioPlayer" controls autoplay>
+        <source id="songSource" src="https://raw.githubusercontent.com/RoqueDJ/happy99.9/main/audio/Happy 99 (mp3cut.net).mp3" type="audio/mp3">
         Your browser does not support the audio element.
     </audio>
 
@@ -19,20 +18,26 @@
         const audioPlayer = document.getElementById('audioPlayer');
         const songSource = document.getElementById('songSource');
 
-        // Replace these URLs with the correct paths to your files
-        const introUrl = "https://drive.google.com/uc?export=download&id=1sZ6aWoSuXTu93JNTihZGsnbd-EkFdgyj"; // Intro song
-        const mainSongUrl = "https://drive.google.com/uc?export=download&id=1sRDT5ZUUVovucmM_MFtXGzidhpOMRsfk"; // Main song
+        // URLs for the intro and main song
+        const introUrl = "https://raw.githubusercontent.com/RoqueDJ/happy99.9/main/audio/Happy 99 (mp3cut.net).mp3"; // Intro song
+        const mainSongUrl = "https://raw.githubusercontent.com/RoqueDJ/happy99.9/main/audio/Eiffel 65 - Blue (Da Ba Dee) (AC3 Stereo).mp3"; // Main song
 
-        // Play intro first and then switch to main song
-        audioPlayer.src = introUrl; // Start with the intro song
-
-        audioPlayer.addEventListener('ended', function() {
-            if (audioPlayer.src.includes(introUrl)) {
-                audioPlayer.src = mainSongUrl; // Change to main song after intro
-                audioPlayer.play(); // Start playing the main song
+        // Function to alternate between intro and main song
+        function playNextSong(currentSrc) {
+            if (currentSrc === introUrl) {
+                audioPlayer.src = mainSongUrl; // Switch to main song
             } else {
-                audioPlayer.src = mainSongUrl; // Keep the main song playing in a loop
+                audioPlayer.src = introUrl; // Switch back to intro
             }
+            audioPlayer.play(); // Start playing the new song
+        }
+
+        // Start with intro song
+        audioPlayer.src = introUrl;
+
+        // Add event listener to switch songs when the current one ends
+        audioPlayer.addEventListener('ended', function() {
+            playNextSong(audioPlayer.src);
         });
     </script>
 </body>
