@@ -10,7 +10,8 @@
 
     <!-- Audio player -->
     <audio id="audioPlayer" controls autoplay loop>
-        <source id="songSource" src="https://drive.google.com/file/d/1sZ6aWoSuXTu93JNTihZGsnbd-EkFdgyj/view?usp=drivesdk" type="audio/mp3">
+        <source id="songSource" src="https://drive.google.com/uc?export=download&id=1sZ6aWoSuXTu93JNTihZGsnbd-EkFdgyj"
+" type="audio/mp3">
         Your browser does not support the audio element.
     </audio>
 
@@ -19,8 +20,8 @@
         const songSource = document.getElementById('songSource');
 
         // Replace these URLs with the correct paths to your files
-        const introUrl = "https://drive.google.com/file/d/1sZ6aWoSuXTu93JNTihZGsnbd-EkFdgyj/view?usp=drivesdk"; // Intro song
-        const mainSongUrl = "https://drive.google.com/file/d/1sRDT5ZUUVovucmM_MFtXGzidhpOMRsfk/view?usp=drivesdk"; // Main song
+        const introUrl = "https://drive.google.com/uc?export=download&id=1sZ6aWoSuXTu93JNTihZGsnbd-EkFdgyj"; // Intro song
+        const mainSongUrl = "https://drive.google.com/uc?export=download&id=1sRDT5ZUUVovucmM_MFtXGzidhpOMRsfk"; // Main song
 
         // Play intro first and then switch to main song
         audioPlayer.src = introUrl; // Start with the intro song
