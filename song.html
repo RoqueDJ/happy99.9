@@ -21,37 +21,25 @@
         const introUrl = "https://raw.githubusercontent.com/RoqueDJ/happy99.9/main/audio/Happy%2099%20(mp3cut.net).mp3"; // Intro song
         const mainSongUrl = "https://raw.githubusercontent.com/RoqueDJ/happy99.9/main/audio/Eiffel%2065%20-%20Blue%20(Da%20Ba%20Dee)%20(AC3%20Stereo).mp3"; // Main song
 
-        // Store which song is currently playing in localStorage
-        let currentSong = localStorage.getItem('currentSong') || 'intro'; 
+        // Initialize audio with intro song first
+        let songQueue = [introUrl, mainSongUrl]; // Queue to alternate between intro and main song
+        let currentSongIndex = 0; // Start with the intro song
 
-        // Set the initial song based on saved state or default to intro
-        if (currentSong === 'main') {
-            audioPlayer.src = mainSongUrl;
-        } else {
-            audioPlayer.src = introUrl;
-        }
-
-        // Function to play the next song (alternating between intro and main song)
-        function playNextSong() {
-            // If the current song is the intro, switch to the main song
-            if (audioPlayer.src.includes(introUrl)) {
-                audioPlayer.src = mainSongUrl; // Switch to main song
-                localStorage.setItem('currentSong', 'main'); // Save current song as 'main'
-            } else {
-                audioPlayer.src = introUrl; // Switch back to intro
-                localStorage.setItem('currentSong', 'intro'); // Save current song as 'intro'
-            }
-            audioPlayer.play(); // Play the new song
-        }
-
-        // Event listener to alternate between songs when the current one ends
-        audioPlayer.addEventListener('ended', function() {
-            playNextSong();
-        });
-
-        // Ensure autoplay works, even if you refresh the page (prevents stopping after refresh)
+        // Set up the player to play the current song from the start
+        audioPlayer.src = songQueue[currentSongIndex];
         audioPlayer.autoplay = true;
 
+        // Play next song when current one ends
+        function playNextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songQueue.length; // Cycle between intro and main song
+            audioPlayer.src = songQueue[currentSongIndex]; // Switch to the next song
+            audioPlayer.play(); // Start playing the new song
+        }
+
+        // Add event listener to switch songs when the current one ends
+        audioPlayer.addEventListener('ended', playNextSong);
+
+        // If you refresh the page, the audio will continue playing automatically from where it would be in the broadcast (intro -> main -> intro -> main...)
     </script>
 </body>
 </html>
