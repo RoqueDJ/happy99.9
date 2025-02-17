@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy99.9 - Now Playing</title>
-    
+
     <!-- CSS for Styling -->
     <style>
         body {
@@ -51,7 +51,7 @@
         
         <!-- Audio player with controls -->
         <div class="audio-player">
-            <audio id="audioPlayer" controls autoplay>
+            <audio id="audioPlayer" autoplay>
                 <source id="songSource" src="https://raw.githubusercontent.com/RoqueDJ/happy99.9/main/audio/Happy%2099%20(mp3cut.net).mp3" type="audio/mp3">
                 Your browser does not support the audio element.
             </audio>
@@ -92,7 +92,7 @@
             audioPlayer.play(); // Play the song immediately
         }
 
-        // Event listener to trigger song change when current song ends
+        // Event listener to trigger song change when the current song ends
         audioPlayer.addEventListener('ended', playNextSong);
 
         // Hide the loading message when the player is ready
@@ -102,6 +102,24 @@
 
         // Ensure autoplay works on page load
         audioPlayer.play();
+
+        // Store the current song index and playback time to localStorage
+        audioPlayer.addEventListener('timeupdate', function() {
+            localStorage.setItem('songTime', audioPlayer.currentTime);
+            localStorage.setItem('songIndex', currentSongIndex);
+        });
+
+        // When the page loads, resume playback from the last saved position
+        window.addEventListener('load', function() {
+            const savedTime = localStorage.getItem('songTime');
+            const savedSongIndex = localStorage.getItem('songIndex');
+
+            if (savedTime && savedSongIndex) {
+                audioPlayer.currentTime = savedTime;
+                currentSongIndex = parseInt(savedSongIndex, 10);
+                audioPlayer.play();
+            }
+        });
 
     </script>
 </body>
